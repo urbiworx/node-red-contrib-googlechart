@@ -1,0 +1,17 @@
+{
+    "name"         : "node-red-contrib-googlechart",
+    "version"      : "0.0.1",
+    "description"  : "A sample node for node-red",
+    "dependencies": {
+    },
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/username/repository.git"
+	},
+    "keywords": [ "node-red" ],
+    "node-red"     : {
+        "nodes": {
+            "googlechart": "googlechart.js"
+        }
+    }
+}
