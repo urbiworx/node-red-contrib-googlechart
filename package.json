@@ -1,12 +1,12 @@
 {
     "name"         : "node-red-contrib-googlechart",
     "version"      : "0.0.1",
-    "description"  : "A sample node for node-red",
+    "description"  : "A google chart node for red node",
     "dependencies": {
     },
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/username/repository.git"
+		"url": "https://github.com/urbiworx/node-red-contrib-googlechart.git"
 	},
     "keywords": [ "node-red" ],
     "node-red"     : {
