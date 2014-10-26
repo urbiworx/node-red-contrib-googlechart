@@ -50,8 +50,6 @@ function GoogleChartReply(n) {
 					msg.res.set(msg.headers);
 				}
 				var statusCode = msg.statusCode || 200;
-				console.log("resp "+msg.charttype);
-				console.log("attribs "+msg.attribs.length);
 				var response="";
 				response+='{"cols": [';
 				for (var i=0;i<msg.attribs.length;i++){
