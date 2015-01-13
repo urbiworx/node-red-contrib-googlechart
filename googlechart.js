@@ -62,7 +62,7 @@ function GoogleChartReply(n) {
 						for (var j=0;j<msg.attribs.length;j++){
 							var obj=msg.payload[i][msg.attribs[j].name];
 							if (msg.attribs[j].type=="date"){
-								response+='{"v":"U'+obj.getFullYear()+'/'+obj.getMonth()+'/'+obj.getDate()+' '+obj.getHours()+':'+obj.getMinutes()+':'+obj.getSeconds()+'","f":null}';
+								response+='{"v":"'+obj.toJSON()+'","f":null}';
 							} else if (msg.attribs[j].type=="string"){
 								response+='{"v":"'+obj+'","f":null}';
 							} else {
@@ -126,10 +126,7 @@ function GoogleChart(n) {
 								'  for (var i=0;i<jsonDataParsed.cols.length;i++){\n'+
 								'  	if (jsonDataParsed.cols[i].type.indexOf("date")!=-1){\n'+
 								'    for (var j=0;j<jsonDataParsed.rows.length;j++){\n'+
-								'		var utc=false;if (jsonDataParsed.rows[j].c[i].v.indexOf("U")==0){jsonDataParsed.rows[j].c[i].v=jsonDataParsed.rows[j].c[i].v.substring(1);utc=true;}\n'+
-								'       jsonDataParsed.rows[j].c[i].v=new Date(jsonDataParsed.rows[j].c[i].v)\n'+
-								'       if (utc){jsonDataParsed.rows[j].c[i].v.setTime(jsonDataParsed.rows[j].c[i].v.getTime()-(new Date().getTimezoneOffset()*60*1000))}\n'+
-								'  	 }\n'+
+								'       jsonDataParsed.rows[j].c[i].v=new Date(jsonDataParsed.rows[j].c[i].v);\n'+
 								'   }\n'+
 								'  }\n'+
 								'  var data = new google.visualization.DataTable(jsonDataParsed);'+
