@@ -28,18 +28,18 @@ var jsonParser = express.json();
 var urlencParser = express.urlencoded();
 
 function rawBodyParser(req, res, next) {
-    if (req._body) return next();
-    req.body = "";
-    req._body = true;
-    getBody(req, {
-        limit: '1mb',
-        length: req.headers['content-length'],
-        encoding: 'utf8'
-    }, function (err, buf) {
-        if (err) return next(err);
-        req.body = buf;
-        next();
-    });
+		if (req._body) return next();
+		req.body = "";
+		req._body = true;
+		getBody(req, {
+				limit: '1mb',
+				length: req.headers['content-length'],
+				encoding: 'utf8'
+		}, function (err, buf) {
+				if (err) return next(err);
+				req.body = buf;
+				next();
+		});
 }
 
 function GoogleChartReply(n) {
@@ -90,24 +90,24 @@ function GoogleChartReply(n) {
 }
 function GoogleChart(n) {
 	RED.nodes.createNode(this,n);
-    this.path = n.path.trim();
+		this.path = n.path.trim();
 	this.charttype = n.charttype.trim();
 	this.attribs = n.attribs;
 	var that=this;
-    if (RED.settings.httpNodeRoot !== false) {
-        var node = this;
+		if (RED.settings.httpNodeRoot !== false) {
+				var node = this;
 
-        this.errorHandler = function(err,req,res,next) {
-            node.warn(err);
-            res.send(500);
-        };
+				this.errorHandler = function(err,req,res,next) {
+						node.warn(err);
+						res.send(500);
+				};
 
-        this.callback = function(req,res) {
+				this.callback = function(req,res) {
 			if (urllib.parse(req.url, true).query.data=="true"){
 				node.send({req:req,res:res,charttype:that.charttype,attribs:that.attribs,payload:{}});
 			} else {
 				res.end('<html>'+
-							  '<head>'+
+								'<head>'+
 								'<!--Load the AJAX API-->'+
 								'<script type="text/javascript" src="https://www.google.com/jsapi?autoload={\'modules\':[{\'name\':\'visualization\',\'version\':\'1\',\'packages\':[\'annotationchart\']}]}"></script>'+
 								'<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>'+
@@ -120,13 +120,14 @@ function GoogleChart(n) {
 								'	  dataType:"json",'+
 								'	  async: false'+
 								'	  }).responseText;'+
-								  ((that.charttype!=="AnnotationChart")?'setTimeout(function () { drawChart(); }, 60000);\n':'')+
+									((that.charttype!=="AnnotationChart")?'setTimeout(function () { drawChart(); }, 60000);\n':'')+
 								'  jsonData=jsonData.replace(/(\\r\\n|\\n|\\r)/gm,"").replace(/,[ ]*?\\]/g,"]");\n'+
 								'  var jsonDataParsed=JSON.parse(jsonData);\n'+
 								'  for (var i=0;i<jsonDataParsed.cols.length;i++){\n'+
 								'  	if (jsonDataParsed.cols[i].type.indexOf("date")!=-1){\n'+
 								'    for (var j=0;j<jsonDataParsed.rows.length;j++){\n'+
 								'       jsonDataParsed.rows[j].c[i].v=new Date(jsonDataParsed.rows[j].c[i].v);\n'+
+								'    }\n'+
 								'   }\n'+
 								'  }\n'+
 								'  var data = new google.visualization.DataTable(jsonDataParsed);'+
@@ -134,46 +135,46 @@ function GoogleChart(n) {
 								'  chart.draw(data, {width: 800, height: 240});'+
 								'}'+
 								'</script>'+
-							  '</head>'+
-							  '<body>'+
+								'</head>'+
+								'<body>'+
 								'<div id="chart_div"></div>'+
-							  '</body>'+
+								'</body>'+
 							'</html>');
 				}
-        }
+				}
 
-        var corsHandler = function(req,res,next) { next(); }
+				var corsHandler = function(req,res,next) { next(); }
 
-        if (RED.settings.httpNodeCors) {
-            corsHandler = cors(RED.settings.httpNodeCors);
-            RED.httpNode.options(this.path,corsHandler);
-        }
-        RED.httpNode.get(this.path,corsHandler,this.callback,this.errorHandler);
+				if (RED.settings.httpNodeCors) {
+						corsHandler = cors(RED.settings.httpNodeCors);
+						RED.httpNode.options(this.path,corsHandler);
+				}
+				RED.httpNode.get(this.path,corsHandler,this.callback,this.errorHandler);
 
 
-        this.on("close",function() {
-            var routes = RED.httpNode.routes["get"];
-            for (var i = 0; i<routes.length; i++) {
-                if (routes[i].path == this.path) {
-                    routes.splice(i,1);
-                    //break;
-                }
-            }
-            if (RED.settings.httpNodeCors) {
-                var routes = RED.httpNode.routes['options'];
-                for (var i = 0; i<routes.length; i++) {
-                    if (routes[i].path == this.path) {
-                        routes.splice(i,1);
-                        //break;
-                    }
-                }
-            }
-        });
-	
-	
-    } else {
-        this.warn("Cannot create http-in node when httpNodeRoot set to false");
-    }
+				this.on("close",function() {
+						var routes = RED.httpNode.routes["get"];
+						for (var i = 0; i<routes.length; i++) {
+								if (routes[i].path == this.path) {
+										routes.splice(i,1);
+										//break;
+								}
+						}
+						if (RED.settings.httpNodeCors) {
+								var routes = RED.httpNode.routes['options'];
+								for (var i = 0; i<routes.length; i++) {
+										if (routes[i].path == this.path) {
+												routes.splice(i,1);
+												//break;
+										}
+								}
+						}
+				});
+
+
+		} else {
+				this.warn("Cannot create http-in node when httpNodeRoot set to false");
+		}
 }
 RED.nodes.registerType("chart request",GoogleChart);
 RED.nodes.registerType("chart response",GoogleChartReply);
