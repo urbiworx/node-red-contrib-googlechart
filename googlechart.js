@@ -16,31 +16,10 @@
 
 var RED = require(process.env.NODE_RED_HOME+"/red/red");
 var util = require("util");
-var http = require("follow-redirects").http;
-var https = require("follow-redirects").https;
 var urllib = require("url");
-var express = require("express");
-var getBody = require('raw-body');
 var mustache = require("mustache");
 
 var cors = require('cors');
-var jsonParser = express.json();
-var urlencParser = express.urlencoded();
-
-function rawBodyParser(req, res, next) {
-		if (req._body) return next();
-		req.body = "";
-		req._body = true;
-		getBody(req, {
-				limit: '1mb',
-				length: req.headers['content-length'],
-				encoding: 'utf8'
-		}, function (err, buf) {
-				if (err) return next(err);
-				req.body = buf;
-				next();
-		});
-}
 
 function GoogleChartReply(n) {
 	RED.nodes.createNode(this,n);
