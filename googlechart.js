@@ -17,7 +17,6 @@
 var RED = require(process.env.NODE_RED_HOME+"/red/red");
 var util = require("util");
 var urllib = require("url");
-var mustache = require("mustache");
 
 var cors = require('cors');
 
