@@ -71,6 +71,8 @@ function GoogleChart(n) {
 		this.path = n.path.trim();
 	this.charttype = n.charttype.trim();
 	this.attribs = n.attribs;
+	this.formatx = n.formatx;
+	this.formaty = n.formaty;
 	var that=this;
 		if (RED.settings.httpNodeRoot !== false) {
 				var node = this;
@@ -84,6 +86,13 @@ function GoogleChart(n) {
 			if (urllib.parse(req.url, true).query.data=="true"){
 				node.send({req:req,res:res,charttype:that.charttype,attribs:that.attribs,payload:{}});
 			} else {
+				var formatters="";
+				if (that.formatx!=null&&that.formatx.length>0){
+					formatters+=",hAxis: {format: '"+that.formatx+"'}";
+				} 
+				if (that.formaty!=null&&that.formaty.length>0){
+					formatters+=",vAxis: {format: '"+that.formaty+"'}";
+				}
 				res.end('<html>'+
 								'<head>'+
 								'<!--Load the AJAX API-->'+
@@ -110,7 +119,7 @@ function GoogleChart(n) {
 								'  }\n'+
 								'  var data = new google.visualization.DataTable(jsonDataParsed);'+
 								'  var chart = new google.visualization.'+that.charttype+'(document.getElementById("chart_div"));'+
-								'  chart.draw(data, {width: 800, height: 240});'+
+								'  chart.draw(data, {width: 800, height: 240'+formatters+'});'+
 								'}'+
 								'</script>'+
 								'</head>'+

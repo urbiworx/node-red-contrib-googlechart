@@ -31,6 +31,15 @@
         <input type="text" id="node-input-path" placeholder="Path">
     </div>
 	<div class="form-row">
+        <label for="node-input-formatx"><i class="icon-tag"></i> X-Axis Format</label>
+        <input type="text" id="node-input-formatx" placeholder="dd/MM/yyyy HH:mm">
+    </div>
+	<div class="form-row">
+        <label for="node-input-formaty"><i class="icon-tag"></i> Y-Axis Format</label>
+        <input type="text" id="node-input-formaty" placeholder="#$">
+    </div>
+	<div class="form-row">
+		<label for="node-input-attrivs"><i class="icon-tag"></i> Attributes</label>
 		<div id="attribs"/>
 		<a id="add" class="btn btn-mini"><i class="icon-plus"></i>add</a>
     </div>
@@ -69,6 +78,8 @@ return msg;
         defaults: {
 			charttype: {value:"AreaChart",required:true},
 			path: {value:"/googlechart",required:true},
+			formatx:{},
+			formaty:{},
 			attribs:{}
         },
         outputs:1,
