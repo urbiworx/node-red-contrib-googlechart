@@ -31,6 +31,10 @@
         <input type="text" id="node-input-path" placeholder="Path">
     </div>
 	<div class="form-row">
+        <label for="node-input-refresh"><i class="icon-tag"></i> Refresh (seconds)</label>
+        <input type="text" id="node-input-refresh" placeholder="60">
+    </div>
+	<div class="form-row">
         <label for="node-input-formatx"><i class="icon-tag"></i> X-Axis Format</label>
         <input type="text" id="node-input-formatx" placeholder="dd/MM/yyyy HH:mm">
     </div>
@@ -78,6 +82,7 @@ return msg;
         defaults: {
 			charttype: {value:"AreaChart",required:true},
 			path: {value:"/googlechart",required:true},
+			refresh: {value:"60"},
 			formatx:{},
 			formaty:{},
 			attribs:{}

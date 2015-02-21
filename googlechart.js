@@ -70,6 +70,13 @@ function GoogleChart(n) {
 	RED.nodes.createNode(this,n);
 		this.path = n.path.trim();
 	this.charttype = n.charttype.trim();
+	this.refresh = 0;
+	if (typeof(n.refresh)!=="undefined"&&n.refresh!=null&&n.refresh.length!=0){
+		try{
+			this.refresh = parseInt(n.refresh,10);
+		} catch (e){;}
+	}
+	this.refresh=this.refresh*1000;
 	this.attribs = n.attribs;
 	this.formatx = n.formatx;
 	this.formaty = n.formaty;
@@ -107,7 +114,7 @@ function GoogleChart(n) {
 								'	  dataType:"json",'+
 								'	  async: false'+
 								'	  }).responseText;'+
-									((that.charttype!=="AnnotationChart")?'setTimeout(function () { drawChart(); }, 60000);\n':'')+
+									((that.charttype!=="AnnotationChart"&&that.refresh!=0)?'setTimeout(function () { drawChart(); }, '+that.refresh+');\n':'')+
 								'  jsonData=jsonData.replace(/(\\r\\n|\\n|\\r)/gm,"").replace(/,[ ]*?\\]/g,"]");\n'+
 								'  var jsonDataParsed=JSON.parse(jsonData);\n'+
 								'  for (var i=0;i<jsonDataParsed.cols.length;i++){\n'+
